@@ -5,4 +5,5 @@
     <string name="sms_text_hint">SMS text</string>
     <string name="call_button">Call</string>
     <string name="send_sms_button">Send SMS</string>
+    <string name="send_sms_allow_request">Please allow this app to send messages in order to proceed</string>
 </resources>

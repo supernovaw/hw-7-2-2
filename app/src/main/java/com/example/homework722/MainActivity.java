@@ -1,16 +1,22 @@
 package com.example.homework722;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
+	private static final int SMS_SEND_REQUEST = 42;
+
 	private EditText phoneNumberInput;
 	private EditText smsTextInput;
 	private Button callButton;
@@ -42,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void sendSms() {
+		int permission = ContextCompat.checkSelfPermission(this,
+				Manifest.permission.SEND_SMS);
+		if (permission != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.SEND_SMS}, SMS_SEND_REQUEST);
+			Toast.makeText(this, R.string.send_sms_allow_request, Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		String number = phoneNumberInput.getText().toString();
 		String smsText = smsTextInput.getText().toString();
 		SmsManager manager = SmsManager.getDefault();
